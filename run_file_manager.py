@@ -9,14 +9,15 @@ commands = ('Создать папку',
             'Посмотреть только файлы в р. дирректории',
             'Сменить рабочую дирректорию',
             'Посмотреть название ОС',
+            'Сохранить содержимое рабочей дирректории в файл',
             'Выход')
-
+worked_dir = os.getcwd()
 while True:
-    worked_dir = os.getcwd()
+    print(worked_dir)
     for n, name in enumerate(commands):
         print(str(n+1) + '.', name)
     command = input('Введите номер команды:\n')
-    if command == '9':
+    if command == '10':
         break
     elif command == '1':
         name = input('Введите имя папки:\n')
@@ -24,5 +25,29 @@ while True:
     elif command == '2':
         name = input('Введите имя папки\\файла:\n')
         fm.del_folder(name, worked_dir)
+    elif command == '3':
+        name = input('Введите имя папки\\файла:\n')
+        fm.copy_dir(name, worked_dir)
+    elif command == '4':
+        print(fm.get_listdir(worked_dir))
+    elif command == '5':
+        print('Папки:')
+        for i, name in enumerate(fm.get_folders_list(worked_dir)):
+            print(str(i) + ')', name)
+
+    elif command == '6':
+        print('Файлы:')
+        for i, name in enumerate(fm.get_files_list(worked_dir)):
+            print(str(i) + ')', name)
+    elif command == '7':
+        new_dir = input('Введите название новой рабочей дирректории')
+        new_dir = fm.change_worked_dir(new_dir)
+        if new_dir:
+            worked_dir = new_dir
+    elif command == '8':
+        print(fm.get_OS_info())
+
+    elif command == '9':
+        fm.save_listdir(worked_dir)
     else :
         print('В разработке')
