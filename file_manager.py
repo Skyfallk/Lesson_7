@@ -13,6 +13,9 @@
 """
 
 import os
+import shutil
+import sys
+
 
 def create_folder(folder_name, worked_dirrectory):
     """
@@ -21,12 +24,13 @@ def create_folder(folder_name, worked_dirrectory):
     :param folder_name: str
     :param worked_dirrectory: str
     """
-    #os.makedirs()
+    # os.makedirs()
     try:
         os.mkdir(os.path.join(worked_dirrectory, folder_name))
         print("Папка успешно создана.")
     except FileExistsError:
         print('Папка уже существует')
+
 
 def del_folder(folder_name, worked_dir):
     """
@@ -45,14 +49,95 @@ def del_folder(folder_name, worked_dir):
         print('Нет такой папки\файла.')
 
 
+# def copy_folder(worked_dir, folder_name):
+#     res_dir = os.path.join(worked_dir, folder_name + '_copy')
+#     shutil.copytree(os.path.join(worked_dir, folder_name), res_dir)
+#     return res_dir
 
-# получить рабочую дирректорию текущую
-#worked_dir = os.getcwd()
-#new_folder = 'gogogo'
-#new_folder_0 = '123'
-#print(worked_dir)
-#print(os.path.join(worked_dir, new_folder, new_folder_0))
-#create_folder(new_folder, worked_dir)
-#print('asd\\fdfv\\asdsad\q\\')
+def copy_dir(name, worked_directory):
+    name_path = os.path.join(worked_directory, name)
+    # print('name_path',name_path)
+    if os.path.isdir(name_path):
+        shutil.copytree(name_path, name_path + '(copy)')
+        print('Папка "{}" успешно скопирована.'.format(name))
+        return name_path + '(copy)'
+    elif os.path.isfile(name_path):
+        f_name = os.path.basename(name_path)
+        # print('f_name', f_name)
+        # print('os.path.abspath(name_path)', os.path.abspath(name_path))
+        res_dir = os.path.join(
+            worked_directory, f_name[:f_name.index('.')] + '(copy)' + f_name[f_name.index('.'):]
+        )
+        shutil.copyfile(
+            name_path,
+            res_dir,
+            follow_symlinks=True
+        )
+        print('Файл "{}" успешно скопирован.'.format(name))
+        return res_dir
+    else:
+        print('Такой папки\\файла не существует')
+
+def get_listdir(worked_dir):
+    return os.listdir(worked_dir)
+
+def get_folders_list(worked_directory):
+    folders_list = []
+    # print('<----------------- Папки ----------------->')
+    for name in os.listdir(worked_directory):
+        if os.path.isdir(os.path.join(worked_directory, name)):
+            folders_list.append(name)
+    # for i, name in enumerate(folders_list):
+    #     print(str(i) + ')', name)
+    # # print('<----------------------------------------->')
+    return folders_list
+
+def get_files_list(worked_directory):
+    files_list = []
+    # print('<----------------- Файлы ----------------->')
+    for name in os.listdir(worked_directory):
+        if os.path.isfile(os.path.join(worked_directory, name)):
+            files_list.append(name)
+
+    return files_list
+
+def change_worked_dir(new_dir):
+    try:
+        if os.listdir(new_dir):
+            return new_dir
+
+    except FileNotFoundError:
+        return
+
+
+def get_OS_info():
+    return sys.platform + '(' + os.name + ')'
+
+def save_listdir(worked_dir):
+    file_list = get_files_list(worked_dir)
+    folder_list = get_folders_list(worked_dir)
+    file = open('worked_dir_info.txt', 'w')
+    file.write( 'Files: ' + ','.join(file_list) + '\n')
+    file.write('Folders: ' + ','.join(folder_list) + '\n')
+    file.close()
+
+
+
+
+
+    # for i, name in enumerate(files_list):
+    #     print(str(i) + ')', name)
+# print('<----------------------------------------->')
+
+    # получить рабочую дирректорию текущую
+
+
+# worked_dir = os.getcwd()
+# new_folder = 'gogogo'
+# new_folder_0 = '123'
+# print(worked_dir)
+# print(os.path.join(worked_dir, new_folder, new_folder_0))
+# create_folder(new_folder, worked_dir)
+# print('asd\\fdfv\\asdsad\q\\')
 if __name__ == '__main__':
     print('Привет')
