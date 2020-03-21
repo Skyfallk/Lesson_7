@@ -1,6 +1,9 @@
 import os
 import file_manager as fm
 
+
+
+
 commands = ('Создать папку',
             'Удалить папку\\файл',
             'Копировать папку\\файл',
@@ -15,7 +18,7 @@ worked_dir = os.getcwd()
 while True:
     print(worked_dir)
     for n, name in enumerate(commands):
-        print(str(n+1) + '.', name)
+        print(str(n + 1) + '.', name)
     command = input('Введите номер команды:\n')
     if command == '10':
         break
@@ -29,16 +32,25 @@ while True:
         name = input('Введите имя папки\\файла:\n')
         fm.copy_dir(name, worked_dir)
     elif command == '4':
-        print(fm.get_listdir(worked_dir))
+        # print(fm.get_listdir(worked_dir))
+
+        # используем декорированную функцию
+        fm.get_listdir(worked_dir)
     elif command == '5':
         print('Папки:')
-        for i, name in enumerate(fm.get_folders_list(worked_dir)):
-            print(str(i) + ')', name)
+        # for i, name in enumerate(fm.get_folders_list(worked_dir)):
+        #     print(str(i) + ')', name)
+
+        # используем декорированную функцию
+        fm.get_folders_list(worked_dir)
 
     elif command == '6':
         print('Файлы:')
-        for i, name in enumerate(fm.get_files_list(worked_dir)):
-            print(str(i) + ')', name)
+        # for i, name in enumerate(fm.get_files_list(worked_dir)):
+        #     print(str(i) + ')', name)
+
+        # используем декорированную функцию
+        fm.get_files_list(worked_dir)
     elif command == '7':
         new_dir = input('Введите название новой рабочей дирректории')
         new_dir = fm.change_worked_dir(new_dir)
@@ -49,5 +61,5 @@ while True:
 
     elif command == '9':
         fm.save_listdir(worked_dir)
-    else :
+    else:
         print('В разработке')
